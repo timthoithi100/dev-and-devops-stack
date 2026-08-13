@@ -10,7 +10,7 @@
 - `theme.extend` adds to defaults; `theme` alone replaces them
 - Responsive/state variants (`md:`, `hover:`, `dark:`) are prefixes applied directly to utilities — `md:` follows the same mobile-first `min-width` logic from Intermediate
 - **JIT mode**: scans source files as literal text and generates only the exact CSS requested — enabling arbitrary value syntax (`w-[327px]`)
-- Critical gotcha you correctly reasoned through: JIT can't see dynamically-constructed class names (`` `text-${size}` ``) since it's a text scanner, not a JS interpreter — full class name strings must exist literally in the source
+- JIT can't see dynamically-constructed class names (`` `text-${size}` ``) since it's a text scanner, not a JS interpreter — full class name strings must exist literally in the source
 
 **3. Web Accessibility (WCAG, ARIA, Keyboard Nav)**
 
