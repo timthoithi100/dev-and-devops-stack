@@ -1,0 +1,22 @@
+## Beginner — Comprehensive Summary
+
+**1. JS runtime environments**
+JS is single-threaded, dynamically typed, prototype-based. The *language* is identical everywhere, but the *globals available* depend entirely on the host: browsers give you `window`/`document`/DOM APIs, Node gives you `require`/`module`/`process`/filesystem access. Neither runtime has the other's globals.
+
+**2. `var` vs `let` vs `const`**
+`var` is function-scoped and leaks out of blocks (`if`, `for`, etc.); `let`/`const` are block-scoped and respect `{ }` boundaries. `const` prevents *reassignment*, not mutation — you can still push into a `const` array or mutate a `const` object's properties. The classic `setTimeout` loop demo showed *why* this matters: `var` shares one binding across all iterations (all callbacks saw the final value), while `let` creates a fresh binding per iteration (each callback captured its own value) — an early preview of closures.
+
+**3. Hoisting & the Temporal Dead Zone**
+Declarations are registered before code runs. `var` is hoisted and initialized to `undefined` immediately, so early access gives `undefined`, not an error. `let`/`const` are hoisted too, but sit in the TDZ — inaccessible — until their declaration line executes; early access throws `ReferenceError`. Function *declarations* hoist fully (name + body, callable early); function *expressions* only hoist the variable name, not the assigned function. Important edge case you hit directly: the Node REPL parses and executes each line separately, so testing hoisting requires wrapping code in one block (e.g. an IIFE) so it's parsed together — otherwise each statement just runs to completion before the next line is even seen.
+
+**4. Operators, conditionals, loops**
+`===`/`!==` compare value and type with no coercion; `==`/`!=` coerce first and are broadly avoided. `&&`/`||` don't just produce booleans — they return actual operand values, short-circuiting at the first falsy (`&&`) or truthy (`||`) value. `??` is narrower than `||`: it only falls through on `null`/`undefined`, not on other falsy values like `0` or `""` — a distinction you correctly reasoned through with the `null ?? undefined ?? 0 ?? "fallback"` example. `forEach` always returns `undefined` and can't be broken out of early, unlike a `for` loop — a deliberate setup for contrasting it with `map` next.
+
+**5. Functions**
+Declarations hoist fully; expressions don't. Arrow functions differ from regular functions in three concrete ways: no own `this` (inherits from enclosing scope), no own `arguments` object (referencing `arguments` directly inside one throws `ReferenceError`, confirmed on your machine), and they can't be used as constructors. Default parameters trigger only on `undefined`, not `null` — a subtle but frequently-tested distinction. Rest parameters (`...args`) are the modern, arrow-function-compatible replacement for `arguments`, and give a real `Array` rather than an array-like object.
+
+**6. The `this` keyword**
+`this` is determined by *call site*, not definition site. Four core rules: method call → `this` is the object before the dot; plain function call → `this` is `undefined` in strict mode, or the global object in sloppy mode (you verified both the `NaN` sloppy-mode result and confirmed Node's REPL/CommonJS is sloppy by default, correcting an earlier assumption of mine); arrow functions → no own `this`, inherits from enclosing scope (this is precisely what makes them reliable inside callbacks like `setTimeout`); constructor calls with `new` → `this` is the newly created object. `instanceof` was previewed as a way to check an object's prototype chain, with the full mechanical explanation deferred to Advanced once `class` and prototypes are covered.
+
+**7. DOM manipulation**
+`querySelector`/`querySelectorAll` use full CSS selector syntax and are preferred over older methods like `getElementById`. `innerHTML` parses assigned strings as real HTML — dangerous with any user-controlled input (XSS risk, deferred to the Web Security module) — `textContent` is the safe default for plain text. `classList.toggle`/`add`/`remove`/`contains` is the idiomatic way to drive styling changes from JS, with actual visual rules living in CSS rather than inline `element.style` assignments — reinforced by your fix just now.
