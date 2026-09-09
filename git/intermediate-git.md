@@ -8,7 +8,7 @@ Two approaches — know both, use GitHub Flow for solo and small team work:
 |---|---|---|
 | Permanent branches | `main` + `develop` | `main` only |
 | Best for | Large teams, scheduled releases | Continuous delivery, solo |
-| Rule | Never commit directly to `main` | Never commit directly to `main` |
+| Rule | Never commit directly to `main` or `develop` | Never commit directly to `main` |
 
 ```bash
 git switch -c feature/<name>     # create and switch to feature branch
