@@ -69,4 +69,4 @@
 - `MY_VAR="value"` — local to current shell
 - `export MY_VAR` — makes it available to child processes
 - `.bashrc` — runs every new terminal; `.bash_profile` — runs on login shells
-- Custom aliases: `update`, `tidy`, `checkup` added to `~/.bashrc`
+- Custom aliases like `update`, `tidy`, `checkup` added to `~/.bashrc`
